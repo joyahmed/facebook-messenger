@@ -1,13 +1,12 @@
-import React from 'react'
+import { lazy } from 'react';
+const AuthForm = lazy(() => import('./components/auth/AuthForm'));
 
 const Home = () => {
-  return (
-    <div>
-      Home
-    </div>
-  )
-}
+	return (
+		<>
+			<AuthForm />
+		</>
+	);
+};
 
-export default Home
-
-
+export default Home;
