@@ -7,7 +7,7 @@ interface InputProps {
 	id: string;
 	name: string;
 	value: string;
-	type?: string;
+	type: string;
 	required?: boolean;
 	disabled?: boolean;
 	hasErrors: boolean;
@@ -40,51 +40,32 @@ const Input: React.FC<InputProps> = ({
 			>
 				{label}
 			</label>
-			<div className='mt-1'>
-				<input
-					id={id}
-					type={type}
-					name={name}
-					value={value}
-					autoComplete={id}
-					disabled={disabled}
-					onChange={onChange}
-					className={`
-							form-input
-							block
-							w-full
-							rounded-md
-							border-0
-							px-2
-							py-1.5
-							text-white
-							bg-transparent
-							shadow-sm
-							ring-1
-							ring-inset
-							ring-gray-300
-							placeholder:text-gray-400
-							focus:ring-2
-							focus:ring-inset
-							focus:ring-sky-600
-							sm:text-sm
-							sm:leading-6
-							focus:outline-none
+
+			<input
+				id={id}
+				type={type}
+				name={name}
+				value={value}
+				autoComplete={id}
+				disabled={disabled}
+				onChange={onChange}
+				className={`block w-full rounded-md border-0 px-2 py-1.5 				text-white bg-transparent shadow-sm ring-1 ring-inset 							ring-gray-300 placeholder:text-white focus:ring-2 							focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6						focus:outline-none mt-1
 							${disabled ? 'opacity-50 cursor-default' : ''}
 	 				 `}
-				/>
-				<span
-					className={`flex flex-col w-full text-red-600 text-xs mt-2 ${
-						hasErrors ? 'flex' : 'hidden'
-					}`}
-				>
-					{errors?.map(error => (
-						<span key={error} className='block'>
-							{error}
-						</span>
-					))}
-				</span>
-			</div>
+			/>
+			<span
+				className={`${
+					hasErrors
+						? 'flex flex-col text-red-400 text-[14px] mt-2'
+						: 'hidden'
+				}`}
+			>
+				{errors?.map(error => (
+					<span key={error} className='whitespace-pre-line'>
+						{error}
+					</span>
+				))}
+			</span>
 		</>
 	);
 };

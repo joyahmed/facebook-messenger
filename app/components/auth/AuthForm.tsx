@@ -3,12 +3,17 @@
 import useAuthItems from '@/hooks/useAuthItems';
 import useForm from '@/hooks/useForm';
 import { initialAuth } from '@/store/initialState';
-import { lazy } from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { lazy, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 const Providers = lazy(() => import('./Providers'));
 const AuthHeader = lazy(() => import('./AuthHeader'));
 const CredentialForm = lazy(() => import('./CredentialForm'));
 
 const AuthForm = () => {
+	const session = useSession();
+	const router = useRouter();
 	const {
 		form,
 		handleChangeInput,
@@ -24,16 +29,48 @@ const AuthForm = () => {
 		setErrors
 	);
 
-	const onFormSubmit = (form: AuthForm) => {
+	const onFormSubmit = async (form: AuthForm) => {
 		setIsLoading(true);
 
-		if (variant === 'REGISTER') {
-		}
-		if (variant === 'LOGIN') {
+		try {
+			if (variant === 'REGISTER') {
+				const registerResponse = await fetch('/api/register', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(form)
+				});
+
+				if (registerResponse.status === 201) {
+					toast.success('Registration successful!');
+					await signIn('credentials', form);
+				} else {
+					const errorMessage = await registerResponse.text();
+					toast.error(`Registration failed: ${errorMessage}`);
+				}
+			}
+
+			if (variant === 'LOGIN') {
+				const loginResponse = await signIn('credentials', {
+					...form,
+					redirect: false
+				});
+
+				if (loginResponse?.error) {
+					toast.error('Invalid credentials');
+				} else if (loginResponse?.ok) {
+					toast.success('Logged in!');
+					router.push('/users');
+				}
+			}
+		} catch (error) {
+			console.error('An error occurred:', error);
+			toast.error('Something went wrong!');
+		} finally {
+			setIsLoading(false);
 		}
 	};
-
-
 
 	return (
 		<div className='flex flex-col items-center justify-center h-full min-h-screen py-5 sm:px-6 lg:px-8'>

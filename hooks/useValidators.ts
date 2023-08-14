@@ -45,16 +45,17 @@ export const minLengthValidator: Validator =
 		)} should be at least ${minLength} characters`;
 	};
 
-export const firstUpperCaseLetter: Validator = element => (form: Form) => {
-	const { value } = element;
-	if (value.length === 0) return '';
+export const firstUpperCaseLetter: Validator =
+	element => (form: Form) => {
+		const { value } = element;
+		if (value.length === 0) return '';
 
-	return value[0] !== value[0].toLocaleUpperCase()
-		? `${makeUppercase(
-				element.name
-		  )} first letter should be uppercased`
-		: '';
-};
+		return value[0] !== value[0].toLocaleUpperCase()
+			? `${makeUppercase(
+					element.name
+			  )} first letter should be uppercased`
+			: '';
+	};
 
 export const emailValidator: Validator = element => (form: Form) => {
 	const { value } = element;
@@ -71,23 +72,22 @@ export const emailValidator: Validator = element => (form: Form) => {
 	return '';
 };
 
-export const passwordValidator: Validator = element => (form: Form) => {
-	const { value } = element;
+export const passwordValidator: Validator =
+	element => (form: Form) => {
+		const { value } = element;
 
-	if (value.length === 0) return null;
+		if (value.length === 0) return null;
 
-	const passwordPattern =
-		/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).{8,20}$/;
+		const passwordPattern =
+			/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).{8,20}$/;
 
-	if (!passwordPattern.test(value)) {
-		return `Password must meet the following requirements:
-      - At least 8 - 20 characters
-      - At least one uppercase letter
-      - At least one lowercase letter
-      - At least one digit
-      - At least one special symbol (~\`!@#$%^&*()--+={}[]|\\:;"\'<>,.?/_)
-      `;
-	}
+		if (!passwordPattern.test(value)) {
+			return `Password must contain minimum 8 - 20 characters
+      Minimum one uppercase letter
+      Minimum one lowercase letter
+      Minimum one digit
+      Minimum one special symbol (~\`!@#$%^&*()--+={}[]|\\:;"\'<>,.?/_)`;
+		}
 
-	return null;
-};
+		return null;
+	};

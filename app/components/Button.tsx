@@ -2,7 +2,7 @@ interface ButtonProps {
 	type?: 'button' | 'submit' | 'reset' | undefined;
 	fullWidth?: boolean;
 	children?: React.ReactNode;
-	onClick?: () => void;
+	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 	secondary?: boolean;
 	danger?: boolean;
 	disabled?: boolean;
@@ -22,14 +22,14 @@ const Button = ({
 			onClick={onClick}
 			type={type}
 			disabled={disabled}
-			className={`flex justify-center rounded-md px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+			className={`flex justify-center rounded-md px-3 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 transition
 			${disabled && 'opacity-50 cursor-default'}
 			${fullWidth && 'w-full'}
 			${secondary ? 'text-gray-900' : 'text-white'}
 			${
 				danger
-					? 'bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600'
-					: 'bg-sky-500 hover:bg-sky-600 focus-visible:outline-sky-600'
+					? 'bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600 focus:outline-none'
+					: 'bg-gray-900/30 hover:bg-black border-[1px] border-blue-900'
 			}
     `}
 		>

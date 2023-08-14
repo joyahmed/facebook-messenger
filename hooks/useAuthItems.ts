@@ -52,7 +52,7 @@ const useAuthItems = (
 			{
 				id: 'confirmPassword',
 				label: 'Confirm Password',
-				type: 'confirmPassword',
+				type: 'password',
 				name: 'confirmPassword',
 				value: confirmPassword,
 				validators: [requiredValidator, passwordValidator]
